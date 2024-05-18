@@ -1,0 +1,39 @@
+{
+    "name": "bunitech/draw-erd",
+    "description": "Beautiful Laravel schema designer & Code generator",
+    "keywords": [
+        "database",
+        "erd",
+        "schema",
+        "designer",
+        "laravel"
+    ],
+    "type": "package",
+    "license": "Commercial",
+    "authors": [
+        {
+            "name": "Salim Baraza",
+            "email": "barazasalim23@gmail.com"
+        }
+    ],
+    "homepage": "https://draw-erd.com",
+	"autoload": {
+        "psr-4": {
+            "Bunitech\\DrawErd\\": "src/"
+        }
+    },
+    "require": {
+		"php": ">=8.2",
+		"laravel/framework": ">=10.0",
+        "doctrine/dbal": "^3.6"
+	},
+	"extra": {
+        "laravel": {
+            "providers": [
+                "Bunitech\\DrawErd\\DrawErdServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -9,14 +9,14 @@
         "laravel"
     ],
     "type": "package",
-    "license": "Commercial",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Salim Baraza",
-            "email": "barazasalim23@gmail.com"
+            "email": "barazasalim24@gmail.com"
         }
     ],
-    "homepage": "https://draw-erd.com",
+    "homepage": "https://getdrawerd.com",
 	"autoload": {
         "psr-4": {
             "Bunitech\\DrawErd\\": "src/"
@@ -24,7 +24,7 @@
     },
     "require": {
 		"php": ">=8.2",
-		"laravel/framework": ">=10.0",
+		"laravel/framework": "10|11",
         "doctrine/dbal": "^4.0"
 	},
 	"extra": {

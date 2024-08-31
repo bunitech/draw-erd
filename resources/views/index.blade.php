@@ -1,5 +1,5 @@
 window.bunilaravel = {
-	baseUrl: 'https://draw-erd-main.test/api',
+	baseUrl: 'http://draw-erd.test:8000/api',
 	isTemplate: false,
     isSample: false,
 	wsUrl: 'socket.getdrawerd.com',

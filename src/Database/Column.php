@@ -2,27 +2,21 @@
 
 namespace Bunitech\DrawErd\Database;
 
-use Doctrine\DBAL\Schema\Column as DoctrineColumn;
+use Illuminate\Support\Str;
 
 class Column
 {
-	/** @var Doctrine\DBAL\Schema\Column */
+	/** @var stdClass */
 	protected $column;
-	
+
 	/** @var string */
 	public $name;
-	
+
 	/** @var string */
 	public $type;
-	
+
 	/** @var int|null */
 	public $length;
-	
-	/** @var int */
-    public $precision = 10;
-
-    /** @var int */
-    public $scale = 0;
 
     /** @var bool */
     public $unsigned = false;
@@ -35,45 +29,43 @@ class Column
 
     /** @var bool */
     public $autoincrement = false;
-	
+
     /** @var string|null */
     public $comment;
-	
-	/** @var string|null */
-    public $columnDef;
 
-	public $platformOptions;
-
-	public $customSchema;
-	
 	/**
      * Create a new column representation.
      *
-     * @param  Doctrine\DBAL\Schema\Column  $column
+     * @param  array  $column
      * @return void
      */
-	public function __construct(DoctrineColumn $column)
+	public function __construct(array $column)
 	{
-		$this->column = $column;
-		
-		$this->name = $column->getName();
-		
+		$this->column = (object) $column;
+
+		$this->name = $this->column->name;
+
 		$this->setColumnOptions();
 	}
-	
+
 	protected function setColumnOptions()
 	{
-		$this->type = $this->column->getType()->getName();
-		$this->length = $this->column->getLength();
-		$this->autoincrement = $this->column->getAutoIncrement();
-		$this->precision = $this->column->getPrecision();
-		$this->scale = $this->column->getScale();
-		$this->unsigned = $this->column->getUnsigned();
-		$this->notnull = $this->column->getNotNull();
-		$this->comment = $this->column->getComment();
-		$this->default = $this->column->getDefault();
-		$this->columnDef = $this->column->getColumnDefinition();
-		$this->platformOptions = $this->column->getPlatformOptions();
-		$this->customSchema = $this->column->getCustomSchemaOptions();
+		$this->type = $this->column->type_name;
+		$this->length = $this->getSize($this->column->type);
+		$this->autoincrement = $this->column->auto_increment;
+		$this->unsigned = Str::of($this->column->type)->contains('unsigned');
+		$this->notnull = ! $this->column->nullable;
+		$this->comment = $this->column->comment;
+		$this->default = $this->column->default;
 	}
+
+    protected function getSize(string $columnType) {
+        $pattern = '/\((\d+(?:,\d+)?)\)/';
+
+        if(preg_match($pattern, $columnType, $matches)) {
+            return $matches[1];
+        }
+
+        return null;
+    }
 }

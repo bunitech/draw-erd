@@ -2,57 +2,55 @@
 
 namespace Bunitech\DrawErd\Database;
 
-use Doctrine\DBAL\Schema\Index as DoctrineIndex;
-
 class Index
 {
-	/** @var Doctrine\DBAL\Schema\Index */
+	/** @var stdClass */
 	protected $index;
-	
+
 	/** @var string */
 	public $name;
-	
+
 	/** @var string */
 	public $type;
-	
+
 	/** @var array */
 	public $columns;
-	
+
 	/**
      * Create a new index representation.
      *
-     * @param  Doctrine\DBAL\Schema\Index  $index
+     * @param array  $index
      * @return void
      */
-	public function __construct(DoctrineIndex $index)
+	public function __construct(array $index)
 	{
-		$this->index = $index;
-		
+		$this->index = (object) $index;
+
 		$this->setIndexName();
 		$this->setIndexType();
 		$this->setIndexColumns();
 	}
-	
+
 	protected function setIndexName()
 	{
-		$this->name = $this->index->getName();
+		$this->name = $this->index->name;
 	}
-	
+
 	protected function setIndexType()
 	{
 		$type = 'index';
-		
-		if($this->index->isPrimary()) {
+
+		if($this->index->primary) {
 			$type = 'primary';
-		} elseif ($this->index->isUnique()) {
+		} elseif ($this->index->unique) {
 			$type = 'unique';
 		}
-		
+
 		$this->type = $type;
 	}
-	
+
 	protected function setIndexColumns()
 	{
-		$this->columns = $this->index->getColumns();
+		$this->columns = $this->index->columns;
 	}
 }

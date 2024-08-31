@@ -2,41 +2,39 @@
 
 namespace Bunitech\DrawErd\Database;
 
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
-
 class ForeignKey
 {
-	/** @var Doctrine\DBAL\Schema\ForeignKeyConstraint */
+	/** @var object */
 	protected $foreignKeyConstraint;
-	
+
 	/** @var string */
 	public $name;
-	
+
 	/** @var string */
 	public $field;
-	
+
 	/** @var string */
 	public $references;
-	
+
 	/** @var string */
 	public $on;
-	
+
 	/** @var string */
 	public $onUpdate;
-	
+
 	/** @var string */
 	public $onDelete;
-	
+
 	/**
      * Create a new foreign key representation.
      *
-     * @param  Doctrine\DBAL\Schema\ForeignKeyConstraint  $ForeignKeyConstraint
+     * @param  array  $ForeignKeyConstraint
      * @return void
      */
-	public function __construct(ForeignKeyConstraint $foreignKeyConstraint)
+	public function __construct(array $foreignKeyConstraint)
 	{
-		$this->foreignKeyConstraint = $foreignKeyConstraint;
-		
+		$this->foreignKeyConstraint = (object) $foreignKeyConstraint;
+
 		$this->setName();
 		$this->setField();
 		$this->setReferences();
@@ -44,34 +42,34 @@ class ForeignKey
 		$this->setOnUpdate();
 		$this->setOnDelete();
 	}
-	
+
 	protected function setName()
 	{
-		$this->name = $this->foreignKeyConstraint->getName();
+		$this->name = $this->foreignKeyConstraint->name;
 	}
-	
+
 	public function setField()
 	{
-		$this->field = $this->foreignKeyConstraint->getLocalColumns()[0];
+		$this->field = $this->foreignKeyConstraint->columns[0];
 	}
-	
+
 	public function setReferences()
 	{
-		$this->references = $this->foreignKeyConstraint->getForeignColumns()[0];
+		$this->references = $this->foreignKeyConstraint->foreign_columns[0];
 	}
-	
+
 	public function setOn()
 	{
-		$this->on = $this->foreignKeyConstraint->getForeignTableName();
+		$this->on = $this->foreignKeyConstraint->foreign_table;
 	}
-	
+
 	public function setOnUpdate()
 	{
-		$this->onUpdate = $this->foreignKeyConstraint->hasOption('onUpdate') ? $this->foreignKeyConstraint->getOption('onUpdate') : NULL;
+		$this->onUpdate = $this->foreignKeyConstraint->on_update ?? NULL;
 	}
-	
+
 	public function setOnDelete()
 	{
-		$this->onDelete = $this->foreignKeyConstraint->hasOption('onDelete') ? $this->foreignKeyConstraint->getOption('onDelete') : NULL;
+		$this->onDelete = $this->foreignKeyConstraint->on_delete ?? NULL;
 	}
 }

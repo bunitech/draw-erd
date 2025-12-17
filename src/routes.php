@@ -13,5 +13,7 @@ if(! App::environment('production')) {
 		Route::post('/generate-code', 'GenerateCodeController@store');
 		Route::post('/run-commands', 'RunCommandsController@store');
 		Route::post('/import-database', 'ImportModelsController@store');
+		Route::post('/store-api-key', 'OfflineSettingsController@storeApiKey');
+		Route::post('/store-project-key', 'OfflineSettingsController@storeProjectKey');
 	});
 }

@@ -15,8 +15,6 @@ return [
 
 	'project_key' => env('DRAW_ERD_PROJECT_KEY', ''),
 
-    'open_ai_key' => env('DRAW_ERD_OPEN_AI_KEY', ''),
-
 	'paths' => [
 		'base_path' => base_path(),
 		'app_path' => base_path('app')
